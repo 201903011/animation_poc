@@ -67,7 +67,7 @@ class _OrbitAnimationState extends State<OrbitAnimation> {
                               ),
                             ),
                             AnimatedContainer(
-                              duration: const Duration(seconds: 1),
+                              duration: const Duration(seconds: 2),
                               height: 20,
                               width: percent > 0.99
                                   ? double.maxFinite

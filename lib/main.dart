@@ -4,6 +4,7 @@ import 'package:animation/animations/custom_card.dart';
 import 'package:animation/animations/digilocker_animation.dart';
 import 'package:animation/animations/flutter_swiper.dart';
 import 'package:animation/animations/orbit_animation.dart';
+import 'package:animation/animations/orbit_transform.dart';
 import 'package:animation/animations/vibration.dart';
 import 'package:flutter/material.dart';
 
@@ -46,7 +47,9 @@ class _HomePageState extends State<HomePage> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            buildButtonMenu(context, OrbitAnimation(), "Moon Animation"),
+            buildButtonMenu(context, OrbitAnimation(), "Orbit  Animation"),
+            buildButtonMenu(context, OrbitTransformAnimation(),
+                "Orbit Transform Animation"),
             buildButtonMenu(
                 context, const DigilockerAnimation(), "Digilocker Animation"),
             buildButtonMenu(

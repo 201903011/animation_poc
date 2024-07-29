@@ -1,39 +1,66 @@
+import 'package:animation/widget/orbit_background.dart';
+import 'package:animation/widget/painter.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:lottie/lottie.dart';
 
-class OrbitAnimation extends StatefulWidget {
-  const OrbitAnimation({super.key});
+class OrbitTransformAnimation extends StatefulWidget {
+  const OrbitTransformAnimation({super.key});
 
   @override
-  State<OrbitAnimation> createState() => _OrbitAnimationState();
+  State<OrbitTransformAnimation> createState() =>
+      _OrbitTransformAnimationState();
 }
 
-class _OrbitAnimationState extends State<OrbitAnimation> {
+class _OrbitTransformAnimationState extends State<OrbitTransformAnimation>
+    with SingleTickerProviderStateMixin {
   double percent = 0.25;
+
+  late AnimationController _controller;
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(seconds: 30),
+      vsync: this,
+    )..repeat(); // Repeat the animation indefinitely
+  }
+
+  static final Animatable<double> _rotationTween =
+      CurveTween(curve: Curves.linear);
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
 
     return Scaffold(
-      backgroundColor: const Color(0xff000122),
+      backgroundColor: const Color(0xff141414),
       body: Stack(
         children: [
-          Column(
-            children: [
-              Lottie.asset("assets/files/orbit.json",
-                  repeat: true, fit: BoxFit.fitWidth),
-            ],
-          ),
+          OuterCircle(),
+          innerShaddow(width),
+          InnerCircle(),
+          outerShaddow(width),
           Positioned(
-            top: 15,
-            child: IconButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                },
-                icon: const Icon(
-                  Icons.arrow_back,
-                  color: Colors.white,
-                )),
+            top: 30,
+            right: 0,
+            child: AnimatedBuilder(
+              animation: _controller,
+              builder: (context, child) {
+                return Transform.rotate(
+                  angle: _controller.value * 2.0 * 3.14159,
+                  // angle: 1.272170492, // Full rotation in radians
+                  child: starsObject(width),
+                );
+              },
+            ),
           ),
           Column(
             children: [
@@ -45,22 +72,14 @@ class _OrbitAnimationState extends State<OrbitAnimation> {
                     Container(
                       width: double.maxFinite,
                       height: 80,
-                      decoration: const BoxDecoration(
-                          gradient: LinearGradient(
-                              begin: Alignment.bottomCenter,
-                              end: Alignment.topCenter,
-                              colors: [
-                            Color(0xff000122),
-                            Color(0xff000122),
-                            Color(0x00000122)
-                          ])),
+                      decoration: const BoxDecoration(),
                       child: Container(
                         margin: const EdgeInsets.all(16),
                         child: Stack(
                           alignment: Alignment.bottomLeft,
                           children: [
                             Container(
-                              height: 20,
+                              height: 8,
                               decoration: BoxDecoration(
                                 color: Colors.grey.shade900,
                                 borderRadius: BorderRadius.circular(22),
@@ -68,7 +87,8 @@ class _OrbitAnimationState extends State<OrbitAnimation> {
                             ),
                             AnimatedContainer(
                               duration: const Duration(seconds: 1),
-                              height: 20,
+                              height: 8,
+                              // width: double.maxFinite,
                               width: percent > 0.99
                                   ? double.maxFinite
                                   : percent <= 0
@@ -76,13 +96,37 @@ class _OrbitAnimationState extends State<OrbitAnimation> {
                                       : (width - 32) * percent,
                               decoration: BoxDecoration(
                                 gradient: LinearGradient(colors: [
-                                  Colors.white,
-                                  Colors.white,
-                                  Colors.amber.shade800,
+                                  Color(0xffD4D3DD),
+                                  Color(0xffEFEFBB),
+                                  Color(0xffEEA849),
+                                  Color(0xffEE6111),
                                 ]),
                                 borderRadius: BorderRadius.circular(22),
                               ),
-                            )
+                            ),
+                            // Row(
+                            //   mainAxisAlignment: MainAxisAlignment.end,
+                            //   children: [
+                            //     Stack(
+                            //       children: [
+                            //         AnimatedContainer(
+                            //           duration: const Duration(seconds: 1),
+                            //           height: 8,
+                            //           width: 200,
+                            //           decoration: BoxDecoration(
+                            //             color: Color(0xff262423),
+                            //             borderRadius: BorderRadius.horizontal(
+                            //                 left: Radius.elliptical(22, 22),
+                            //                 right: Radius.circular(22)),
+                            //           ),
+                            //           // child: CustomPaint(
+                            //           //   painter: ConcaveCircularPainter(),
+                            //           // ),
+                            //         ),
+                            //       ],
+                            //     ),
+                            //   ],
+                            // ),
                           ],
                         ),
                       ),
@@ -132,7 +176,18 @@ class _OrbitAnimationState extends State<OrbitAnimation> {
                 ),
               ),
             ],
-          )
+          ),
+          Positioned(
+            top: 15,
+            child: IconButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.white,
+                )),
+          ),
         ],
       ),
     );
