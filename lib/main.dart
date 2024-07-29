@@ -1,3 +1,4 @@
+import 'package:animation/animations/card_flip.dart';
 import 'package:animation/animations/curtain_animation.dart';
 import 'package:animation/animations/custom_card.dart';
 import 'package:animation/animations/digilocker_animation.dart';
@@ -53,7 +54,7 @@ class _HomePageState extends State<HomePage> {
             buildButtonMenu(context, FlutterSwiper(), "Swiper Animation"),
             buildButtonMenu(context, CustomCard(), "Custom Card Animation"),
             buildButtonMenu(context, VibrationScreen(), "Vibration screen"),
-            buildButtonMenu(context, Scaffold(), "Flip Animation"),
+            buildButtonMenu(context, FlipCardPage(), "Flip Animation"),
           ],
         ),
       ),
