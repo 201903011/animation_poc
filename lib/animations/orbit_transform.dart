@@ -1,3 +1,4 @@
+import 'package:animation/widget/delayed_star.dart';
 import 'package:animation/widget/orbit_background.dart';
 import 'package:animation/widget/painter.dart';
 import 'package:flutter/material.dart';
@@ -8,12 +9,10 @@ class OrbitTransformAnimation extends StatefulWidget {
   const OrbitTransformAnimation({super.key});
 
   @override
-  State<OrbitTransformAnimation> createState() =>
-      _OrbitTransformAnimationState();
+  State<OrbitTransformAnimation> createState() => _OrbitTransformAnimationState();
 }
 
-class _OrbitTransformAnimationState extends State<OrbitTransformAnimation>
-    with SingleTickerProviderStateMixin {
+class _OrbitTransformAnimationState extends State<OrbitTransformAnimation> with SingleTickerProviderStateMixin {
   double percent = 0.25;
 
   late AnimationController _controller;
@@ -27,8 +26,7 @@ class _OrbitTransformAnimationState extends State<OrbitTransformAnimation>
     )..repeat(); // Repeat the animation indefinitely
   }
 
-  static final Animatable<double> _rotationTween =
-      CurveTween(curve: Curves.linear);
+  static final Animatable<double> _rotationTween = CurveTween(curve: Curves.linear);
 
   @override
   void dispose() {
@@ -61,6 +59,19 @@ class _OrbitTransformAnimationState extends State<OrbitTransformAnimation>
                 );
               },
             ),
+          ),
+          Positioned(
+            left: 40,
+            right: 0,
+            top: 100,
+            child: DelayedStar(),
+            // child: Center(
+            //   child: Container(
+            //     width: 50,
+            //     height: 50,
+            //     color: Colors.red,
+            //   ),
+            // ),
           ),
           Column(
             children: [
