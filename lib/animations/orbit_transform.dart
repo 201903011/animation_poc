@@ -1,7 +1,9 @@
 import 'package:animation/widget/orbit_background.dart';
 import 'package:animation/widget/painter.dart';
+import 'package:animation/widget/vibrated_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/widgets.dart';
+import 'package:flutter_shake_animated/flutter_shake_animated.dart';
 import 'package:lottie/lottie.dart';
 
 class OrbitTransformAnimation extends StatefulWidget {
@@ -18,13 +20,19 @@ class _OrbitTransformAnimationState extends State<OrbitTransformAnimation>
 
   late AnimationController _controller;
 
+  late AnimationController shakeController;
+
   @override
   void initState() {
     super.initState();
     _controller = AnimationController(
       duration: const Duration(seconds: 30),
       vsync: this,
-    )..repeat(); // Repeat the animation indefinitely
+    )..repeat();
+
+    // Repeat the animation indefinitely
+
+    // shakeController = AnimationController(vsync: this);
   }
 
   static final Animatable<double> _rotationTween =
@@ -44,9 +52,9 @@ class _OrbitTransformAnimationState extends State<OrbitTransformAnimation>
       backgroundColor: const Color(0xff141414),
       body: Stack(
         children: [
-          OuterCircle(),
+          const OuterCircle(),
           innerShaddow(width),
-          InnerCircle(),
+          const InnerCircle(),
           outerShaddow(width),
           Positioned(
             top: 30,
@@ -95,7 +103,7 @@ class _OrbitTransformAnimationState extends State<OrbitTransformAnimation>
                                       ? 0
                                       : (width - 32) * percent,
                               decoration: BoxDecoration(
-                                gradient: LinearGradient(colors: [
+                                gradient: const LinearGradient(colors: [
                                   Color(0xffD4D3DD),
                                   Color(0xffEFEFBB),
                                   Color(0xffEEA849),
@@ -145,6 +153,21 @@ class _OrbitTransformAnimationState extends State<OrbitTransformAnimation>
                   child: Column(
                     children: [
                       const Spacer(),
+                      // VibratedButton(),
+                      // ShakeButton,
+                      ShakeWidget(
+                        duration: const Duration(seconds: 5),
+                        shakeConstant: ShakeRotateConstant1(),
+                        autoPlay: false,
+                        onController: (controller) {
+                          shakeController = controller;
+                        },
+                        child: ElevatedButton(
+                            onPressed: () {
+                              shakeController.forward();
+                            },
+                            child: const Text("Data")),
+                      ),
                       Row(
                         children: [
                           Expanded(
